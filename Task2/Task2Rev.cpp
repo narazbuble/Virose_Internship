@@ -2,14 +2,13 @@
 #include <fstream>
 #include <string>
 #include <vector>
-#include <filesystem>        // Untuk cek file
+#include <filesystem>       
 #include <rapidjson/document.h>
 #include <rapidjson/istreamwrapper.h>
 
 namespace rj = rapidjson;
 using namespace std;
 
-// ===== HEADER SECTION (di dalam cpp) =====
 class MotionFrame {
 public:
     float time;
@@ -28,14 +27,13 @@ public:
     int total_frame;
     int loop;
     float speed;
-    vector<int> frames; // simpan semua motion_frame dalam satu vektor
+    vector<int> frames; 
 
     MotionUnit(const rj::Value& unit_json){
         id = unit_json["id"].GetInt();
         loop = unit_json["loop"].GetInt();
         speed = unit_json["speed"].GetFloat();
 
-        // load motion_unit JSON
         string path_unit = "../../XL/motion_unit/" + to_string(id) + ".json";
         ifstream ifsu(path_unit);
         if(!ifsu.is_open()){
@@ -55,7 +53,7 @@ public:
         total_frame = docu["total_frame"].GetInt();
 
         const rj::Value& motion_frames = docu["motion_frame"];
-        // baca array of arrays
+        
         for(const auto& arr : motion_frames.GetArray()){
             for(const auto& f : arr.GetArray()){
                 frames.push_back(f.GetInt());
@@ -82,7 +80,6 @@ public:
     vector<MotionUnit> units;
 
     MotionMovie(const string& path_json){
-        // debug cek file
         if(!filesystem::exists(path_json)){
             cout << "Movie JSON file not found: " << path_json << endl;
             return;
@@ -119,7 +116,6 @@ public:
     }
 };
 
-// ===== MAIN =====
 int main(){
     int M;
     cout << "ID :";
@@ -127,7 +123,6 @@ int main(){
 
     string path_json = "../../XL/motion_movie/" + to_string(M)+ ".json";
 
-    // debug cek folder kerja saat runtime
     cout << "Current working directory: " << filesystem::current_path() << endl;
     cout << "Trying to open movie JSON: " << path_json << endl;
 
@@ -136,3 +131,4 @@ int main(){
 
     return 0;
 }
+
