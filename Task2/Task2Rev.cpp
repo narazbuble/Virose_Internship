@@ -62,7 +62,7 @@ public:
     }
 
     void print() const {
-        for(int l = 0; l < loop; l++){ // ikuti loop dari motion_movie
+        for(int l = 0; l < loop; l++){ 
             for(const auto& f : frames){
                 cout << "Unit ID: " << id 
                      << " | motion_frame : " << f << endl;
@@ -131,4 +131,5 @@ int main(){
 
     return 0;
 }
+
 
