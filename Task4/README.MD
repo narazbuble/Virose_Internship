@@ -91,10 +91,10 @@ Setiap pengiriman dibingkai dengan *byte* penanda:
 3.  Pesan verifikasi **CRC32 yang cocok**.
 4.  Pencetakan data JSON yang diformat dengan benar:
     ```
-    [KONTEN FILE YANG DITERIMA]
-    NAMA: [Nama Anda]
-    JURUSAN: [Jurusan Anda]
-    UMUR: [Umur Anda]
-    DESKRIPSI DIRI: [Deskripsi Anda]
+    [FILE DITERIMA]
+    NAMA: "Dhanishara"
+    JURUSAN: "Teknik Informatika"
+    UMUR: 17
+    DESKRIPSI DIRI: "Deskripsi sesuai file"
     ------------------------------------------
     ```
