@@ -1,25 +1,21 @@
-# 📁 Proyek CPFT: File Transfer via Serial dan ESP-NOW
+# Task 4: File Transfer via Serial dan ESP-NOW
 
-## 📋 Deskripsi Proyek
+tugas ini mentransfer data **.JSON** dari lingkungan *desktop* (Program C++) ke dua perangkat *embedded* **ESP32** (Bridge dan Receiver) menggunakan kombinasi Serial dan ESP-NOW.
 
-Proyek **CPFT (Cross-Platform File Transfer)** adalah solusi transfer data **JSON** dari lingkungan *desktop* (Program C++) ke dua perangkat *embedded* **ESP32** (Bridge dan Receiver) menggunakan kombinasi Serial dan ESP-NOW.
-
-**Proses Aliran Data:**
+**workflow Data:**
 1. **Laptop (C++)** → Serial (dengan SOP/EOP) → **ESP32-Bridge**
-2. **ESP32-Bridge** → Nirkabel ESP-NOW → **ESP32-Receiver**
+2. **ESP32-Bridge** → ESP-NOW → **ESP32-Receiver**
 
-Data JSON dipecah (*fragmentasi*), dikirim, disusun kembali (*defragmentasi*), dan diverifikasi keutuhannya menggunakan **CRC32**.
+Data JSON dipecah (*chunk*), dikirim, disusun kembali , dan diverifikasi keutuhannya menggunakan **CRC32**.
 
-## ✨ Fitur Utama & Nilai Plus
-
+##feature
 * **Fragmentasi Protokol:** Program C++ memecah *file* JSON menjadi *chunk* dengan ukuran aman (maksimal **220 bytes** *payload*).
-* **Protokol Header Kuat:** Setiap *chunk* membawa **Index**, **Total Paket**, dan **CRC32** dari seluruh *file*.
-* **Komunikasi Serial Aman (SOP/EOP):** Menggunakan *delimiter* **SOP (`0xAA`)** dan **EOP (`0x55`)** untuk membingkai paket Serial dan mencegah *buffer* korupsi di Bridge.
+* **Protokol Header :** Setiap *chunk* membawa **Index**, **Total Paket**, dan **CRC32** dari seluruh *file*.
+* **Komunikasi Serial Aman (SOP/EOP):** Menggunakan *delimiter* **SOP (`0xAA`)** dan **EOP (`0x55`)** untuk membingkai paket Serial dan mencegah *buffer* hilang di Bridge.
 * **Verifikasi Data (CRC32):** Penerima memverifikasi keutuhan data menggunakan CRC32 setelah *defragmentasi*.
-* **OOP di C++:** Menggunakan *class* **`FileSplitter`** dan **`SerialSender`** dengan implementasi PImpl (**Nilai Plus**).
-* **Build System (CMake):** Proyek C++ menggunakan **`CMakeLists.txt`** untuk kompilasi yang terstruktur (**Nilai Plus**).
+* **OOP di C++:** Menggunakan *class* **`FileSplitter`** dan **`SerialSender`** dengan implementasi PImpl 
+* **Build System (CMake):** Proyek C++ menggunakan **`CMakeLists.txt`** untuk kompilasi yang terstruktur 
 
-## 🛠️ Persyaratan Sistem
 
 ### Hardware
 * 1x Laptop/PC.
@@ -27,10 +23,10 @@ Data JSON dipecah (*fragmentasi*), dikirim, disusun kembali (*defragmentasi*), d
     * (Board yang digunakan: **ESP32 DOIT-DEVKIT-V1** disarankan).
 
 ### Software
-* **Laptop C++:** CMake (v3.10+), GCC/G++ atau MSVC.
-* **ESP32:** PlatformIO (PIO) atau Arduino IDE dengan *framework* **Arduino** dan *library* **ESP-NOW**.
+* **Laptop C++:** CMake (v3.10+), GCC/G++.
+* **ESP32:** PlatformIO (PIO).
 
-## 🔌 Protokol & Header Paket
+## Protokol & Header Paket
 
 Data yang dikirim antara komponen memiliki struktur *header* 12 *byte* yang wajib sinkron di C++ dan ESP32.
 
@@ -50,7 +46,7 @@ Setiap pengiriman dibingkai dengan *byte* penanda:
 
 ---
 
-## 🚀 Panduan Eksekusi (4 Langkah Kunci)
+## 
 
 ### Langkah 1: Setup Program C++ (Laptop)
 
@@ -88,9 +84,7 @@ Setiap pengiriman dibingkai dengan *byte* penanda:
     (Atau `./build/CPFT` di Linux/macOS)
 2. **Verifikasi:** Setelah C++ selesai, segera buka Serial Monitor **ESP32-Receiver** di PlatformIO (`pio device monitor`).
 
-### ✅ Tolok Ukur Keberhasilan
-
-Output yang sukses di Serial Monitor Receiver harus mencakup:
+### Output yang sukses di Serial Monitor Receiver harus mencakup:
 
 1.  Log penerimaan *chunk* yang berurutan.
 2.  Pesan **`===== TRANSFER SELESAI =====`**.
